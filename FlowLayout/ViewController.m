@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "MBFlowLayout.h"
-@interface ViewController ()<UICollectionViewDataSource>
+@interface ViewController ()<UICollectionViewDataSource,MBFlowLayoutDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @end
 
@@ -20,6 +20,7 @@
     
     // 切换布局
     MBFlowLayout *layout = [[MBFlowLayout alloc]init];
+    layout.delegate = self;
     
    UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
     collectionView.dataSource = self;
@@ -32,7 +33,6 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return 50;
 }
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor orangeColor];
@@ -50,4 +50,14 @@
     return cell;
 }
 
+#pragma mark - MBFlowLayoutDelegate
+- (CGFloat)flowLayout:(MBFlowLayout *)flowLayout heightForItemAtIndex:(NSUInteger)index itemWidth:(CGFloat)itemWidth
+{
+    //真实的高度
+    CGFloat realH = 50 + arc4random_uniform(100);
+    CGFloat realW = 50 + arc4random_uniform(100);
+    
+    //按宽高比缩小
+    return itemWidth * realH / realW;
+}
 @end

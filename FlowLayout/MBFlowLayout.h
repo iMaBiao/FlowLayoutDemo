@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class MBFlowLayout;
+
+@protocol MBFlowLayoutDelegate<NSObject>
+@required
+//外部设置布局的高度
+- (CGFloat)flowLayout:(MBFlowLayout *)flowLayout heightForItemAtIndex:(NSUInteger)index itemWidth:(CGFloat)itemWidth;
+
+@end
+
 @interface MBFlowLayout : UICollectionViewLayout
+
+@property(nonatomic, weak)id<MBFlowLayoutDelegate> delegate;
 
 @end

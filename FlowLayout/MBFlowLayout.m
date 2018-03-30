@@ -42,6 +42,7 @@ static const UIEdgeInsets defaultEdgeInsets = {10,10,10,10};
     return _attrsArray;
 }
 
+//初始化，每次布局都调用
 - (void)prepareLayout
 {
     [super prepareLayout];
@@ -77,7 +78,9 @@ static const UIEdgeInsets defaultEdgeInsets = {10,10,10,10};
     CGFloat collectionW = self.collectionView.frame.size.width;
     
     CGFloat w = (collectionW - defaultEdgeInsets.left - defaultEdgeInsets.right - (defaultColCount - 1)* defaultColMargin) /  defaultColCount;
-    CGFloat h = 50 + arc4random_uniform(100);
+    
+    //利用代理，外部设置高度
+    CGFloat h = [self.delegate flowLayout:self heightForItemAtIndex:indexPath.item itemWidth:w];
     
     //找出最大Y值最小的那一列
     CGFloat minHeight = [self.columMaxHeights[0] doubleValue];//默认第一列最短
@@ -91,15 +94,15 @@ static const UIEdgeInsets defaultEdgeInsets = {10,10,10,10};
     }
     
     CGFloat x = defaultEdgeInsets.left + destColum * (w + defaultColMargin);
-    
     CGFloat y = minHeight;
-    
+    //第一列处理
     if (y != defaultEdgeInsets.top) {
         y += defaultRowMargin;
     }
     
     attr.frame  = CGRectMake(x, y, w, h);
     
+    //更新最短那列的高度
     self.columMaxHeights[destColum] = @(CGRectGetMaxY(attr.frame));
     
     return attr;
