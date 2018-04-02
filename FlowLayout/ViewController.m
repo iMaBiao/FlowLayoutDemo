@@ -60,4 +60,24 @@
     //按宽高比缩小
     return itemWidth * realH / realW;
 }
+
+- (CGFloat)numOfRowMarginInFlowLayout:(MBFlowLayout *)flowLayout
+{
+    return 10;
+}
+
+- (CGFloat)columnCountInFlowLayout:(MBFlowLayout *)flowLayout{
+    return 3;
+}
+
+- (CGFloat)columnMarginInFlowLayout:(MBFlowLayout *)flowLayout
+{
+    return 10;
+}
+
+- (UIEdgeInsets)edgeInsetsInFlowLayout:(MBFlowLayout *)flowLayout
+{
+    return UIEdgeInsetsMake(10, 10, 10, 10);
+}
+
 @end
